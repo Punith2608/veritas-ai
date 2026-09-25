@@ -664,9 +664,13 @@ Potential extensions include:
 
 ---
 
-#  License
+#  Demo
 
-This project was developed as a **hackathon project by the VERITAS AI team**.
+
+
+https://github.com/user-attachments/assets/34e052e1-ea74-4c43-b9c1-be97a1786652
+
+
 
 ---
 
