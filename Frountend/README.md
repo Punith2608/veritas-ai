@@ -1,454 +1,298 @@
-# VERITAS AI — Generate. Verify. Correct. Trust.
+ ##  VERITAS AI
 
-> **Multi-Agent AI Reasoning & Verification Engine**
+### **Generate. Verify. Correct. Trust.**
 
-VERITAS AI is a multi-agent AI reasoning and verification system designed to improve the reliability of AI-generated answers.
+> **A Multi-Agent AI Reasoning & Verification Engine**
 
-Instead of directly trusting a single AI-generated response, VERITAS AI creates an answer and then independently verifies it using multiple verification mechanisms such as evidence validation, logical consistency, calculation verification, contradiction detection, and risk analysis.
-
-If an answer fails verification, VERITAS AI identifies the problem, corrects the answer, and verifies it again before presenting the final result.
-
----
-
-## 🚀 Problem Statement
-
-Large Language Models can generate convincing answers that may contain:
-
-- Hallucinated facts
-- Incorrect calculations
-- Unsupported claims
-- Logical inconsistencies
-- Contradictory information
-- Overconfident answers
-- Missing or insufficient evidence
-
-Traditional AI applications generally follow a simple flow:
-
-text
-User Question
-      ↓
-      AI
-      ↓
-   Answer
-
-This approach can make it difficult to determine whether an AI-generated answer is actually reliable.
-
-### The Challenge
-
-How can we build an AI system that does not simply generate answers, but also **checks, challenges, corrects, and verifies its own output before accepting it?**
+[![React](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61DAFB?logo=react\&logoColor=black)](https://react.dev/)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi\&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python\&logoColor=white)](https://www.python.org/)
+[![Gemini](https://img.shields.io/badge/AI-Google%20Gemini-4285F4?logo=google\&logoColor=white)](https://ai.google.dev/)
+[![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?logo=vercel\&logoColor=white)](https://vercel.com/)
+[![Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render\&logoColor=black)](https://render.com/)
 
 ---
 
-# 💡 Our Solution
+##  What is VERITAS AI?
 
-VERITAS AI introduces a multi-agent verification pipeline.
+Large Language Models can produce answers that **look correct but contain hallucinations, unsupported claims, calculation errors, logical inconsistencies, or contradictions**.
 
-Instead of relying on one AI response, the system separates reasoning into multiple logical agents.
+**VERITAS AI adds a dedicated verification layer between AI generation and the final response.**
 
-text
-                    USER QUERY
-                        │
-                        ▼
-                  ┌───────────┐
-                  │  PLANNER  │
-                  └─────┬─────┘
-                        │
-                        ▼
-                ┌──────────────┐
-                │  RESEARCHER  │
-                └──────┬───────┘
-                       │
-                       ▼
-                ┌──────────────┐
-                │  GENERATOR   │
-                └──────┬───────┘
-                       │
-                       ▼
-              ┌──────────────────┐
-              │    VERIFICATION  │
-              │       HUB        │
-              └────────┬─────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        ▼              ▼              ▼
-   Evidence         Logic        Calculation
-     Check           Check           Check
-        │              │              │
-        └──────────────┼──────────────┘
-                       │
-                Contradiction Check
-                       │
-                       ▼
-                ┌──────────────┐
-                │ PASS / FAIL  │
-                └──────┬───────┘
-                       │
-              ┌────────┴────────┐
-              │                 │
-             PASS              FAIL
-              │                 │
-              ▼                 ▼
-        Final Answer        ┌─────────┐
-                            │ CRITIC  │
-                            └────┬────┘
-                                 │
-                                 ▼
-                           ┌──────────┐
-                           │CORRECTOR │
-                           └────┬─────┘
-                                │
-                                ▼
-                          VERIFY AGAIN
-                                │
-                                ▼
-                         FINAL / REJECT
+Instead of simply generating an answer, VERITAS AI follows a multi-agent pipeline:
 
-The core idea is:
+```text
+User Query
+    ↓
+  Planner
+    ↓
+ Researcher
+    ↓
+ Generator
+    ↓
+Verification Hub
+    ↓
+ ┌──────────────┬──────────────┬────────────────┐
+ │              │              │                │
+Evidence      Logic       Calculation     Contradiction
+ Check        Check          Check             Check
+ │              │              │                │
+ └──────────────┴──────────────┴────────────────┘
+                       ↓
+                  Risk Check
+                       ↓
+                 PASS / FAIL
+                  │       │
+                PASS     FAIL
+                  │       ↓
+                  │     Critic
+                  │       ↓
+                  │    Corrector
+                  │       ↓
+                  │  Verify Again
+                  │       ↓
+                  └── PASS / REJECT
+```
 
-> **Generate → Verify → Critique → Correct → Verify Again → Accept or Reject**
+###  Core Principle
+
+**Generate → Verify → Critique → Correct → Verify Again → Accept or Reject**
+
+VERITAS AI is designed to make AI responses **more evidence-aware, internally consistent, and trustworthy**.
 
 ---
 
-# ✨ Key Features
+#  Key Features
 
-## 1. Multi-Agent Reasoning
+##  Multi-Agent AI Pipeline
 
-VERITAS AI separates the AI workflow into specialized logical agents.
+Each agent has a dedicated responsibility instead of relying on a single AI response.
 
-### Planner Agent
-
-Analyzes the user query and determines:
-
-* What needs to be done
-* Whether research is required
-* Whether calculations are required
-* Whether verification is required
-
----
-
-### Researcher Agent
-
-Searches for supporting information and evidence.
-
-The researcher prioritizes:
-
-* Government sources
-* Universities
-* Official organizations
-* Primary sources
-* Recent information
-
-Google Search grounding is used to provide evidence for the generated response.
+| Agent             | Responsibility                                               |
+| ----------------- | ------------------------------------------------------------ |
+|  **Planner**    | Breaks the user query into executable tasks                  |
+| **Researcher** | Collects supporting evidence using Google Search grounding   |
+| **Generator**  | Produces an evidence-aware answer and identifies key claims  |
+| **Verifier**  | Independently evaluates the generated response               |
+| **Critic**     | Identifies why a response failed verification                |
+| **Corrector**  | Produces an improved response based on verification feedback |
 
 ---
 
-### Generator Agent
+#  Verification Engine
 
-Generates an initial answer using the research evidence.
+VERITAS AI doesn't blindly trust the generated answer.
 
-The generator also identifies:
+It evaluates the response through multiple verification mechanisms:
 
-* Important claims
-* Assumptions
-* Confidence level
+###  Evidence Verification
 
----
+Checks whether important claims are supported by available evidence.
 
-### Verifier Agent
+###  Logic Verification
 
-Independently evaluates the generated answer.
+Checks consistency, relevance, and unsupported conclusions.
 
-It checks:
+###  Calculation Verification
 
-* Evidence
-* Logic
-* Calculations
-* Contradictions
-* Risk
+Independently validates arithmetic using deterministic Python logic.
 
----
+###  Contradiction Detection
 
-### Critic Agent
-
-If verification fails, the Critic Agent analyzes the failure and identifies:
-
-* Unsupported claims
-* Logical problems
-* Contradictions
-* Incorrect calculations
-* Missing evidence
-
-The Critic does not directly rewrite the answer.
-
----
-
-### Corrector Agent
-
-Uses the original answer, verification results, critic instructions, and research evidence to create a corrected answer.
-
-The corrected answer is then verified again.
-
----
-
-# Verification Engine
-
-VERITAS AI uses multiple verification mechanisms.
-
-### Evidence Verification
-
-Checks whether important claims are actually supported by the collected evidence.
-
-Possible results:
-
-text
-SUPPORTED
-PARTIALLY_SUPPORTED
-UNSUPPORTED
-UNCERTAIN
-
-
-### Logic Verification
-
-Checks whether:
-
-* The answer addresses the original question
-* Claims are logically consistent
-* Conclusions are supported
-* Confidence is reasonable
-
----
-
-### Calculation Verification
-
-Mathematical expressions are independently checked using deterministic Python calculations rather than relying only on an LLM.
-
-Example:
-
-text
-25 × 16
-
-Expected Result:
-400
-
-Generated Result:
-400
-
-Status:
-PASS
-
-
-### Contradiction Detection
-
-Checks whether:
-
-* The answer contradicts research evidence
-* Sources disagree
-* Absolute claims are made from conditional evidence
-* Numerical values conflict
-
----
+Identifies conflicts between claims and available evidence.
 
 ### Risk Check
 
-Checks for potentially problematic or high-risk outputs.
+Identifies potentially problematic output.
+
+### Confidence Scoring
+
+Combines verification signals into an overall confidence assessment.
 
 ---
 
-# 🔄 Self-Correction Loop
+#  Self-Correction
 
-If an answer fails verification, VERITAS AI does not immediately return it to the user.
+When verification fails, VERITAS AI doesn't immediately return the generated response.
 
 Instead:
 
-text
+```text
 Generated Answer
        ↓
-Verification
+   Verification
        ↓
-     FAIL
+      FAIL
        ↓
-    Critic
+     Critic
        ↓
-   Corrector
+    Corrector
        ↓
-Corrected Answer
+ Corrected Answer
        ↓
-Verification Again
+  Verify Again
        ↓
-   PASS → Final Answer
-       │
-       └── FAIL → REJECT
+ ┌─────┴─────┐
+ ↓           ↓
+PASS       REJECT
+```
 
-This creates a closed-loop AI quality-control system.
+This creates a **closed-loop AI quality-control system**.
 
 ---
 
-# 🎯 Example
+# System Architecture
 
-### User Query
-
-text
-What is 25 multiplied by 16?
-
-### Planner
-
-Identifies:
-
-text
-Operation: Multiplication
-Calculation required: Yes
-Verification required: Yes
-Research required: No
-
-
-### Generator
-
-Produces:
-
-text
-25 × 16 = 400
-
-
-### Calculation Verifier
-
-Independently calculates:
-
-text
-25 × 16 = 400
-
-
-### Result
-
-text
-Calculation Check: PASS
-Logic Check: PASS
-Evidence Check: PASS
-Contradiction Check: PASS
-
-Decision: PASS
-
-# 🧪 Failure Detection Example
-
-VERITAS AI can also demonstrate how an AI-generated answer can be challenged.
-
-An intentionally incorrect answer can be introduced:
-
-text
-Electric vehicles are always cheaper than
-petrol cars and have zero environmental impact.
-
-
-The verification system identifies problematic claims and sends the answer through:
-
-text
-FAIL
- ↓
-CRITIC
- ↓
-CORRECTOR
- ↓
-VERIFY AGAIN
-
-
-The corrected response can then qualify the original claims based on available evidence.
-
-
-
-# Dashboard
-
-The VERITAS AI interface provides a visual representation of the reasoning and verification process.
-
-The dashboard includes:
-
-* AI query interface
-* Agent pipeline
-* Generated answer
-* Verification status
-* Confidence breakdown
-* Evidence sources
-* Contradiction analysis
-* Revision history
-* Verification analytics
-* Demo test cases
+```text
+                         ┌───────────────┐
+                         │     USER      │
+                         └───────┬───────┘
+                                 │
+                                 ▼
+                    ┌──────────────────────┐
+                    │    React + Vite      │
+                    │       Vercel         │
+                    └──────────┬───────────┘
+                               │
+                              HTTPS
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │    FastAPI Backend   │
+                    │        Render        │
+                    └──────────┬───────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              ▼                ▼                ▼
+          ┌───────┐       ┌──────────┐     ┌───────────┐
+          │Planner│       │Researcher│     │ Generator │
+          └───┬───┘       └────┬─────┘     └─────┬─────┘
+              │                │                  │
+              └────────────────┼──────────────────┘
+                               ▼
+                    ┌──────────────────────┐
+                    │   Verification Hub   │
+                    └──────────┬───────────┘
+                               │
+             ┌─────────────────┼─────────────────┐
+             ▼                 ▼                 ▼
+        Evidence            Logic           Calculation
+          Check             Check              Check
+             └─────────────────┼─────────────────┘
+                               ▼
+                    Contradiction Check
+                               │
+                               ▼
+                         PASS / FAIL
+                          │       │
+                        PASS     FAIL
+                          │       │
+                          │       ▼
+                          │     Critic
+                          │       ↓
+                          │    Corrector
+                          │       ↓
+                          │  Verify Again
+                          │       ↓
+                          └── PASS / REJECT
+```
 
 ---
 
-# 🏗️ System Architecture
+# Technology Stack
 
-text
-┌─────────────────────────────────────┐
-│            React Frontend            │
-│             Vercel                  │
-└─────────────────┬───────────────────┘
-                  │
-                  │ HTTPS
-                  ▼
-┌─────────────────────────────────────┐
-│          FastAPI Backend             │
-│             Render                  │
-├─────────────────────────────────────┤
-│                                     │
-│  Planner → Researcher → Generator   │
-│                       ↓             │
-│                  Verification       │
-│                       ↓             │
-│               Critic → Corrector    │
-│                                     │
-└─────────────────┬───────────────────┘
-                  │
-                  ▼
-┌─────────────────────────────────────┐
-│             Gemini API              │
-│       Google Search Grounding       │
-└─────────────────────────────────────┘
+### Frontend
 
+* ⚛️ React.js
+* ⚡ Vite
+* 🎨 Tailwind CSS
+* 🟨 JavaScript
+* 🔷 Lucide Icons
 
-# 🛠️ Tech Stack
+### Backend
 
-## Frontend
+* 🐍 Python 3.11+
+* ⚡ FastAPI
+* 📦 Pydantic
+* 🚀 Uvicorn
 
-* React.js
-* Vite
-* Tailwind CSS
-* JavaScript
-* Lucide Icons
+### AI & Search
 
-## Backend
+* ✨ Google Gemini API
+* ⚡ Gemini Flash
+* 🔎 Google Search Grounding
 
-* Python
-* FastAPI
-* Pydantic
-* Uvicorn
+### Deployment
 
-## AI
-
-* Google Gemini API
-* Gemini Flash
-* Google Search Grounding
-
-## Verification
-
-* Python deterministic calculation engine
-* LLM-based logic verification
-* Evidence verification
-* Contradiction detection
-* Risk analysis
-
-## Deployment
-
-* GitHub
-* Vercel — Frontend
-* Render — Backend
+* 🐙 GitHub
+* ▲ Vercel — Frontend
+* 🚀 Render — Backend
 
 ---
 
-# 📁 Project Structure
+#  Live Demo
 
-text
+###  Live Application
+
+**[Open VERITAS AI](https://veritas-5jqgo76lv-punith2608s-projects.vercel.app/)**
+
+###  Backend API
+
+**[VERITAS AI Backend](https://veritas-ai-1-fkzp.onrender.com/)**
+
+###  Interactive API Documentation
+
+**[Swagger API Docs](https://veritas-ai-1-fkzp.onrender.com/docs)**
+
+---
+
+# API Overview
+
+| Endpoint             | Purpose                                       |
+| -------------------- | --------------------------------------------- |
+| `GET /`              | Backend health check                          |
+| `POST /api/plan`     | Creates an execution plan                     |
+| `POST /api/generate` | Generates a research-backed answer            |
+| `POST /api/verify`   | Independently verifies an answer              |
+| `POST /api/analyze`  | Runs the complete VERITAS pipeline            |
+| `POST /api/demo`     | Demonstrates verification and self-correction |
+
+### Complete Pipeline
+
+```text
+POST /api/analyze
+       ↓
+    Planner
+       ↓
+   Researcher
+       ↓
+   Generator
+       ↓
+    Verifier
+       ↓
+   ┌───┴────┐
+   ↓        ↓
+ PASS      FAIL
+   │        ↓
+   │      Critic
+   │        ↓
+   │     Corrector
+   │        ↓
+   │   Verify Again
+   │        ↓
+   │    PASS / REJECT
+   ↓
+Final Response
+```
+
+---
+
+#  Project Structure
+
+```text
 veritas-ai/
 │
 ├── backend/
-│   │
 │   ├── agents/
 │   │   ├── planner.py
 │   │   ├── researcher.py
@@ -471,15 +315,13 @@ veritas-ai/
 │   │
 │   ├── main.py
 │   ├── requirements.txt
-│   ├── .env
 │   └── .python-version
 │
 ├── frontend/
-│   │
 │   ├── src/
+│   │   ├── api/
 │   │   ├── components/
 │   │   ├── data/
-│   │   ├── api/
 │   │   ├── App.jsx
 │   │   ├── App.css
 │   │   └── index.css
@@ -488,41 +330,50 @@ veritas-ai/
 │   ├── package.json
 │   └── vite.config.js
 │
+├── docs/
+│   ├── architecture.md
+│   └── API.md
+│
+├── .env.example
+├── .gitignore
 └── README.md
+```
 
+---
 
-
-# ⚙️ Local Setup
+#  Getting Started
 
 ## Prerequisites
 
-Make sure the following are installed:
+Install:
 
 * Python 3.11+
 * Node.js 18+
 * npm
 * Git
-* Gemini API key
+* Google Gemini API Key
 
 ---
 
-# 🔑 Backend Setup
+##  Clone the Repository
 
-Navigate to the backend:
+```bash
+git clone https://github.com/Punith2608/veritas-ai.git
+
+cd veritas-ai
+```
+
+---
+
+## Setup Backend
 
 ```bash
 cd backend
-```
 
-Create a virtual environment:
-
-### Windows
-
-```bash
 python -m venv venv
 ```
 
-Activate it:
+### Windows
 
 ```bash
 venv\Scripts\activate
@@ -531,7 +382,6 @@ venv\Scripts\activate
 ### Linux / macOS
 
 ```bash
-python3 -m venv venv
 source venv/bin/activate
 ```
 
@@ -540,10 +390,6 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-
----
-
-# 🔐 Configure Gemini API
 
 Create:
 
@@ -554,28 +400,26 @@ backend/.env
 Add:
 
 ```env
-GEMINI_API_KEY=your_gemini_api_key
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-Never commit `.env` or expose the API key publicly.
+> ⚠️ Never commit your actual API key to GitHub.
 
 ---
 
-# ▶️ Run Backend
-
-From the `backend` directory:
+##  Start Backend
 
 ```bash
 uvicorn main:app --reload
 ```
 
-The backend will run at:
+Backend:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-FastAPI documentation:
+Swagger:
 
 ```text
 http://127.0.0.1:8000/docs
@@ -583,19 +427,13 @@ http://127.0.0.1:8000/docs
 
 ---
 
-# 🌐 Frontend Setup
+## Setup Frontend
 
-Open another terminal.
-
-Navigate to:
+Open another terminal:
 
 ```bash
 cd frontend
-```
 
-Install dependencies:
-
-```bash
 npm install
 ```
 
@@ -617,7 +455,7 @@ Start the frontend:
 npm run dev
 ```
 
-The application will normally be available at:
+Application:
 
 ```text
 http://localhost:5173
@@ -625,119 +463,44 @@ http://localhost:5173
 
 ---
 
-# 🔗 API Endpoints
+#  Environment Variables
 
-## Health Check
+Create local `.env` files using the provided `.env.example`.
 
-```http
-GET /
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+VITE_API_URL=http://127.0.0.1:8000
 ```
 
-Returns:
+### Production
 
-```json
-{
-  "message": "VERITAS AI Backend is running"
-}
+```env
+VITE_API_URL=https://veritas-ai-1-fkzp.onrender.com
 ```
+
+Secrets should only be configured through the deployment environment.
 
 ---
 
-## Create Plan
+#  Deployment
 
-```http
-POST /api/plan
+## Frontend — Vercel
+
+Set:
+
+```env
+VITE_API_URL=https://veritas-ai-1-fkzp.onrender.com
 ```
 
-Example:
+Deploy the `frontend` application through Vercel.
 
-```json
-{
-  "query": "What is 25 multiplied by 16?"
-}
-```
-
----
-
-## Generate Answer
-
-```http
-POST /api/generate
-```
-
-Generates an answer using the planner, researcher, and generator agents.
-
----
-
-## Verify Answer
-
-```http
-POST /api/verify
-```
-
-Runs the generated answer through the verification system.
-
----
-
-## Full VERITAS Analysis
-
-```http
-POST /api/analyze
-```
-
-Runs the complete pipeline:
-
-text
-Planner
-   ↓
-Researcher
-   ↓
-Generator
-   ↓
-Verifier
-   ↓
-Critic
-   ↓
-Corrector
-   ↓
-Verifier Again
-   ↓
-PASS / REJECT
-
-
----
-
-# 🚀 Deployment
-
-## Frontend
-
-The React frontend can be deployed using:
-
-text
-Vercel
-
-
-Set the production environment variable:
-
-env
-VITE_API_URL=https://YOUR-RENDER-BACKEND.onrender.com
-
-
----
-
-## Backend
-
-The FastAPI backend can be deployed using:
-
-text
-Render
-
+## Backend — Render
 
 ### Root Directory
 
-text
+```text
 backend
-
+```
 
 ### Build Command
 
@@ -753,93 +516,166 @@ uvicorn main:app --host 0.0.0.0 --port $PORT
 
 ### Environment Variable
 
-```text
+```env
 GEMINI_API_KEY=your_gemini_api_key
 ```
 
 ---
 
-# 👥 Team Members
+#  Database
 
-| S.No | Team Member                 | Student ID     |
-| ---- | --------------------------- | -------------- |
-| 1    | **K. Punith**               | `24102a040522` |
-| 2    | **B. Sathwik**              | `24102a040495` |
-| 3    | **Z. Shashi Vaedhan Reddy** | `24102a040490` |
-| 4    | **R. Koteshwar Reddy**      | `24102a040540` |
+VERITAS AI currently **does not require a persistent database**.
 
----
+The current hackathon implementation uses request-based processing through the multi-agent pipeline.
 
-# 🎯 Hackathon Objective
-
-VERITAS AI focuses on making AI systems more trustworthy by introducing an independent verification layer between AI generation and the final response.
-
-Instead of asking:
-
-> **"Can AI generate an answer?"**
-
-VERITAS AI asks:
-
-> **"Can AI generate an answer, verify it, identify its weaknesses, correct it, and prove why the final answer should be trusted?"**
+```text
+No Database
+     ↓
+User Request
+     ↓
+Multi-Agent Pipeline
+     ↓
+Verification
+     ↓
+Final Response
+```
 
 ---
 
-# 🔮 Future Scope
+# Security
 
-Potential future improvements include:
+Sensitive configuration is handled through environment variables.
+
+The following files should **never** be committed:
+
+```text
+.env
+backend/.env
+frontend/.env
+```
+
+Only the safe template should be included:
+
+```text
+.env.example
+```
+
+---
+
+#  Project Objective
+
+The goal of VERITAS AI is to introduce a practical **quality-control layer for AI-generated information**.
+
+Instead of treating an AI-generated response as automatically trustworthy, VERITAS AI separates:
+
+```text
+Generation
+     ↓
+Verification
+     ↓
+Critique
+     ↓
+Correction
+     ↓
+Re-Verification
+     ↓
+Acceptance / Rejection
+```
+
+This architecture is designed to address a fundamental challenge in generative AI:
+
+> **An answer can sound convincing without actually being correct.**
+
+---
+
+#  Why VERITAS AI?
+
+### Traditional AI Response
+
+```text
+User
+ ↓
+LLM
+ ↓
+Answer
+```
+
+### VERITAS AI
+
+```text
+User
+ ↓
+Planner
+ ↓
+Researcher
+ ↓
+Generator
+ ↓
+Verifier
+ ↓
+Critic / Corrector
+ ↓
+Re-Verification
+ ↓
+Trusted Output
+```
+
+The key difference is simple:
+
+**VERITAS AI doesn't stop at generation. It adds a verification loop.**
+
+---
+
+#  Team
+
+| Member                      | Student ID     |
+| --------------------------- | -------------- |
+| **K. Punith**               | `24102a040522` |
+| **B. Sathwik**              | `24102a040495` |
+| **Z. Shashi Vaedhan Reddy** | `24102a040490` |
+| **R. Koteshwar Reddy**      | `24102a040540` |
+
+---
+
+#  Documentation
+
+Detailed project documentation:
+
+```text
+docs/
+├── architecture.md
+└── API.md
+```
+
+---
+
+#  Future Scope
+
+Potential extensions include:
 
 * More specialized verification agents
-* Advanced source credibility scoring
-* Multi-model cross-verification
-* Automated fact-checking
-* Long-term verification memory
-* Domain-specific verification agents
-* Code execution verification
-* Advanced mathematical theorem verification
-* Document and PDF verification
-* Multi-language verification
-* Human-in-the-loop review
-* Verification APIs for external AI applications
+* Additional evidence sources
+* Advanced claim-level verification
+* More sophisticated confidence calibration
+* Persistent verification history
+* Expanded domain-specific verification
+* Improved contradiction analysis
+* Additional LLM providers
 
 ---
 
-# 🏆 Why VERITAS AI?
+#  License
 
-Modern AI systems are becoming increasingly capable of generating information.
-
-However, generation alone does not guarantee reliability.
-
-VERITAS AI adds a quality-control layer that continuously asks:
-
-text
-Is the answer supported?
-        ↓
-Is the reasoning valid?
-        ↓
-Is the calculation correct?
-        ↓
-Are there contradictions?
-        ↓
-Is the confidence justified?
-        ↓
-If not → Can it be corrected?
-        ↓
-Verify again
-
-
-### Generate.
-
-### Verify.
-
-### Correct.
-
-### Trust.
+This project was developed as a **hackathon project by the VERITAS AI team**.
 
 ---
 
-## 📜 License
+<div align="center">
 
-This project was developed as a hackathon project by the VERITAS AI team.
+##  VERITAS AI
 
-```
-```
+### **Generate. Verify. Correct. Trust.**
+
+**Making AI responses more reliable through multi-agent verification.**
+
+</div>
