@@ -234,7 +234,7 @@ This creates a **closed-loop AI quality-control system**.
 
 ###  Live Application
 
-**[Open VERITAS AI](https://veritas-5jqgo76lv-punith2608s-projects.vercel.app/)**
+**[Open VERITAS AI](https://veritas-ai-ten-sigma.vercel.app/)**
 
 ###  Backend API
 
